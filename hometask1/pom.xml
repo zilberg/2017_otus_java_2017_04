@@ -4,9 +4,51 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name> hometask1 </name>
+    <description>First hometask otus java course</description>
+
+    <developers>
+        <developer>
+            <name> zilberg </name>
+        </developer>
+    </developers>
+
     <groupId>ru.otus</groupId>
     <artifactId>java-2017-04-HT1</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <!--Java version-->
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <net.sf.opencsv.version>2.3</net.sf.opencsv.version>
+    </properties>
+    <!-- For Unit test -->
+    <dependencies>
+        <dependency>
+            <groupId> junit </groupId>
+            <artifactId> junit </artifactId>
+            <version> RELEASE </version>
+            <scope>Test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>ru.zilberg.hometask1.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <finalName>${project.name}_${java.version}_${os.name}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
