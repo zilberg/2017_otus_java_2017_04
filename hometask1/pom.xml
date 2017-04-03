@@ -31,6 +31,15 @@
             <scope>Test</scope>
         </dependency>
     </dependencies>
+    <!--For read csv file-->
+    <dependencies>
+        <dependency>
+            <groupId>nef.sf.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>${net.sf.opencsv.version}</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
