@@ -1,15 +1,19 @@
 package ru.zilberg.hometask2;
 
 
-public class SizeArrayInt {
-    public static void main(String[] args) {
-
-        for(int i = 1; i <= 10; i++ ) {
-            printArraySize(i);
-        }
-
+public class SizeArrayInt implements ObjectSize {
+    @Override
+    public int SizeOf() {
+        return getArraySize(1);
     }
-    private static void printArraySize(int sizeArray){
+
+    @Override
+    public int SizeOf(int arraySize) {
+        return getArraySize(arraySize);
+    }
+
+
+    private static int getArraySize(int sizeArray){
         int count = 1_000_000;
 
         Object [] objects = new Object[count];
@@ -21,7 +25,6 @@ public class SizeArrayInt {
         }
 
         final long  memoryBefor = runtime.totalMemory() - runtime.freeMemory();
-        //System.out.println("Used memory befor create object: " + memoryBefor);
 
         for(int i =1; i <count; ++i){
 
@@ -29,9 +32,8 @@ public class SizeArrayInt {
         }
         runtime.gc();
         final long memoryAfter = runtime.totalMemory() - runtime.freeMemory();
-        //System.out.println("Memory after fill empty Objects: " + memoryAfter);
 
-        System.out.println("length: "+ sizeArray + " of array int " + ((memoryAfter - memoryBefor)/count - 16) + " bytes");
+        int arrSize = (int) (memoryAfter - memoryBefor)/count - 16;
 
         for (int i = 1; i < count; i++){
             objects[i] = null;
@@ -42,5 +44,7 @@ public class SizeArrayInt {
         for (int i = 0; i <= 100; i++) {
             runtime.gc();
         }
+
+        return arrSize;
     }
 }
