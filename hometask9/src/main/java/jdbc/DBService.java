@@ -1,7 +1,5 @@
-package dbService;
+package jdbc;
 
-import dao.UsersDAO;
-import dataSets.UsersDataSet;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -16,9 +14,39 @@ public class DBService {
     public DBService(){
         this.connection = getPGConnection();
     }
-    public UsersDataSet getUser(long id) throws DBException{
+    public Users getUser(long id) throws DBException {
         try{
             return (new UsersDAO(connection).get(id));
+        }catch (SQLException e){
+            throw new DBException(e);
+        }
+    }
+    public long addUser(String name) throws DBException {
+        try {
+            connection.setAutoCommit(false);
+            UsersDAO dao = new UsersDAO(connection);
+            dao.createTable();
+            dao.insertUser(name);
+            connection.commit();
+            return dao.getUserId(name);
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ignore) {
+
+            }
+            throw new DBException(e);
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException ignore) {
+            }
+        }
+    }
+    public void cleanUp() throws DBException{
+        UsersDAO dao = new UsersDAO(connection);
+        try{
+            dao.dropTable();
         }catch (SQLException e){
             throw new DBException(e);
         }

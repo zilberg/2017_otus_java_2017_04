@@ -1,4 +1,4 @@
-package jdbc.executor;
+package jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,23 +15,25 @@ public class Executor {
         this.connection = connection;
     }
 
-    public void execUpdate(String update) throws SQLException{
-        Statement stmt = connection.createStatement();
-        stmt.execute(update);
-        stmt.close();
+    public void save(String update){
+        try(Statement stmt = connection.createStatement()) {
+            stmt.execute(update);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public <T> T execQuery(String query,
-                           ResultHandler<T> handler)
-        throws SQLException{
-        Statement stmt = connection.createStatement();
+                           ResultHandler<T> handler) {
+        try(Statement stmt = connection.createStatement()){
         stmt.execute(query);
         ResultSet result = stmt.getResultSet();
         T value = handler.handler(result);
-        result.close();
-        stmt.close();
-
         return value;
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
