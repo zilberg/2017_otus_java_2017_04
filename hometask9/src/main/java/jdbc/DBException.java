@@ -1,4 +1,4 @@
-package dbService;
+package jdbc;
 
 /**
  * Created by vasvasvlad on 07.06.17.

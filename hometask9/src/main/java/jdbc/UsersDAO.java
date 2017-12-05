@@ -1,7 +1,4 @@
-package dao;
-
-import dataSets.UsersDataSet;
-import executor.Executor;
+package jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,10 +13,10 @@ public class UsersDAO {
         this.executor = new Executor(connection);
     }
 
-    public UsersDataSet get(long id) throws SQLException{
+    public Users get(long id) throws SQLException{
         return executor.execQuery("select * from users id = " + id,result -> {
             result.next();
-            return new UsersDataSet(result.getLong(1),result.getString(2), result.getInt(3));
+            return new Users(result.getLong(1),result.getString(2), result.getInt(3));
         });
     }
 
@@ -31,11 +28,11 @@ public class UsersDAO {
     }
 
     public void insertUser(String name ) throws SQLException{
-        executor.execUpdate("INSERT INTO users(name) values ('" + name + "')");
+        executor.save("INSERT INTO users(name) values ('" + name + "')");
     }
 
     public void createTable() throws SQLException{
-        executor.execUpdate("CREATE TABLE users(" +
+        executor.save("CREATE TABLE users(" +
                 "id SERIAL PRIMARY KEY, " +
                 "name CHAR(255)," +
                 "age INT NOT NULL" +
@@ -43,6 +40,6 @@ public class UsersDAO {
     }
 
     public void dropTable() throws SQLException{
-        executor.execUpdate("drop table users");
+        executor.save("drop table users");
     }
 }

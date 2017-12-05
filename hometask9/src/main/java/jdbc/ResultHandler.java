@@ -1,4 +1,4 @@
-package jdbc.executor;
+package jdbc;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
